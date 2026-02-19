@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Smart Event Dashboard</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:linear-gradient(135deg,#43cea2,#185a9d);
+padding:60px;
+}
+
+/* HEADER */
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+color:white;
+margin-bottom:20px;
+
+}
+
+.header h1{
+margin-left:400px;
+}
+
+.profile{
+width:80px;
+height:80px;
+border-radius:10px;
+}
+
+/* MAIN */
+.main{
+display:flex;
+gap:20px;
+}
+
+/* FORM */
+.form-box{
+
+width:30%;
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 10px 20px rgba(0,0,0,0.2);
+}
+
+.form-box input,
+.form-box select,
+.form-box textarea{
+width:100%;
+padding:8px;
+margin:8px 0;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+.form-box button{
+width:100%;
+padding:10px;
+background:#43cea2;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.form-box button:hover{
+background:#185a9d;
+}
+
+/* EVENTS SECTION */
+.event-section{
+width:70%;
+background:white;
+padding:20px;
+border-radius:15px;
+box-shadow:0 10px 20px rgba(0,0,0,0.2);
+}
+
+.top-buttons{
+display:flex;
+justify-content:space-between;
+margin-bottom:15px;
+}
+
+.top-buttons button{
+padding:8px 15px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+background:#43cea2;
+color:white;
+}
+
+.events{
+display:flex;
+flex-wrap:wrap;
+gap:15px;
+}
+
+/* CARD */
+.card{
+background:#f4f9ff;
+padding:15px;
+border-radius:12px;
+width:175px;
+position:relative;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+transition:0.3s;
+animation:fadeIn 0.4s ease;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.delete{
+position:absolute;
+top:8px;
+right:8px;
+background:red;
+color:white;
+border:none;
+border-radius:50%;
+width:20px;
+height:20px;
+cursor:pointer;
+font-size:12px;
+}
+
+.category{
+display:inline-block;
+background:#185a9d;
+color:white;
+padding:4px 10px;
+border-radius:15px;
+font-size:12px;
+margin-top:5px;
+}
+
+.dom-box{
+margin-top:20px;
+background:white;
+padding:15px;
+border-radius:15px;
+box-shadow:0 10px 20px rgba(0,0,0,0.2);
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<h1>🎯 Smart Event Dashboard</h1>
+</div>
+
+<div class="main">
+
+<div class="form-box">
+<h3>Add New Event</h3>
+<input type="text" id="title" placeholder="Event Title">
+<input type="date" id="date">
+<select id="category">
+<option>Conference</option>
+<option>Workshop</option>
+<option>Seminar</option>
+<option>Meetup</option>
+</select>
+<textarea id="desc" placeholder="Description"></textarea>
+<button onclick="addEvent()">Add Event</button>
+</div>
+
+<div class="event-section">
+<h3>My Events</h3>
+
+<div class="top-buttons">
+<button onclick="clearAll()">Clear All Events</button>
+<button onclick="addSample()">Add Sample Events</button>
+</div>
+
+<div class="events" id="events">
+<p id="emptyText">No events yet. Add your first event!</p>
+</div>
+
+</div>
+</div>
+
+<div class="dom-box">
+<h3>DOM Manipulation Demo</h3>
+<p id="keyText">You Pressed: </p>
+</div>
+
+<script>
+
+document.addEventListener("keydown",function(e){
+document.getElementById("keyText").innerText="You Pressed: "+e.key;
+});
+
+function addEvent(){
+let title=document.getElementById("title").value;
+let date=document.getElementById("date").value;
+let category=document.getElementById("category").value;
+let desc=document.getElementById("desc").value;
+
+if(title==""||date==""){
+alert("Fill required fields");
+return;
+}
+
+document.getElementById("emptyText").style.display="none";
+
+let card=document.createElement("div");
+card.classList.add("card");
+
+card.innerHTML=`
+<button class="delete" onclick="removeCard(this)">x</button>
+<h4>${title}</h4>
+<p>${date}</p>
+<span class="category">${category}</span>
+<p>${desc}</p>
+`;
+
+document.getElementById("events").appendChild(card);
+
+}
+
+function removeCard(btn){
+btn.parentElement.remove();
+}
+
+function clearAll(){
+document.getElementById("events").innerHTML='<p id="emptyText">No events yet. Add your first event!</p>';
+}
+
+function addSample(){
+document.getElementById("title").value="JavaScript Workshop";
+document.getElementById("date").value="2026-02-15";
+document.getElementById("category").value="Workshop";
+document.getElementById("desc").value="Hands-on JavaScript learning session.";
+addEvent();
+}
+
+</script>
+
+</body>
+</html>
